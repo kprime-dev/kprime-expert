@@ -47,4 +47,23 @@ class ExpertHttp {
         val response: HttpResponse<String> = client.send(request, HttpResponse.BodyHandlers.ofString())
         return Pair(response.statusCode(),response.body())
     }
+
+    fun post(expertUrl: String, payloadText: String): Pair<Int,String> {
+        val client: HttpClient = HttpClient.newBuilder()
+//                .version(Version.HTTP_1_1)
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .connectTimeout(Duration.ofSeconds(10))
+//                .proxy(ProxySelector.of(InetSocketAddress("proxy.example.com", 80)))
+//                .authenticator(Authenticator.getDefault())
+            .build()
+        val request: HttpRequest = HttpRequest.newBuilder()
+            .uri(URI.create(expertUrl))
+            .timeout(Duration.ofSeconds(20))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(payloadText))
+            .build()
+        val response: HttpResponse<String> = client.send(request, HttpResponse.BodyHandlers.ofString())
+        return Pair(response.statusCode(),response.body())
+    }
+
 }
