@@ -2,8 +2,9 @@ package it.unibz.cs.semint.kprime.expert.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import unibz.cs.semint.kprime.domain.Gid
-import unibz.cs.semint.kprime.domain.ddl.Label
-import unibz.cs.semint.kprime.domain.ddl.Labelled
+import unibz.cs.semint.kprime.domain.label.Label
+import unibz.cs.semint.kprime.domain.label.Labelled
+import unibz.cs.semint.kprime.domain.label.Labeller
 import unibz.cs.semint.kprime.domain.nextGid
 
 data class Project(val name: String,
@@ -15,7 +16,7 @@ data class Project(val name: String,
                    val gid:Gid= nextGid(),
                    var labels: String = "",
                    val partOf: String = ""
-): Labelled {
+): Labelled by Labeller(){
 
     companion object {
         const val CURRENT_WORKING_DIR = ""
